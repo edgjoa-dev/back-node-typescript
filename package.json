@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watchAll",
+    "test:ci": "jest --ci",
     "dev": "nodemon src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js"
