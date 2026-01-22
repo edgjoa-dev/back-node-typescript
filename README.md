@@ -10,6 +10,7 @@ Backend profesional para un e-commerce de tienda de ropa, desarrollado con **Nod
 - **Base de Datos**: MongoDB (Mongoose)
 - **Autenticación**: JWT (JSON Web Tokens)
 - **Roles**: RBAC (Admin, Client, Vendedor)
+- **CI/CD**: GitHub Actions
 - **Arquitectura**: Clean Architecture / Hexagonal
 - **Testing**: Jest + Supertest
 
@@ -87,6 +88,18 @@ src/
 ### Auth
 - `POST /api/auth/register` - Registrar nuevo usuario
 - `POST /api/auth/login` - Iniciar sesión
+
+## 🔄 CI/CD
+
+El proyecto incluye un pipeline de **GitHub Actions** (`.github/workflows/ci.yml`) que se ejecuta en cada Push y Pull Request a `main`.
+
+**Jobs:**
+1. **Build & Test**:
+    - Levanta una BD MongoDB efímera (Service Container).
+    - Instala dependencias y corre el linter/build.
+    - Ejecuta `npm run test:ci`.
+2. **Docker Verify**:
+    - Construye la imagen de Docker para asegurar que el Dockerfile es válido.
 
 ### Users
 - `GET /api/users` - Obtener todos los usuarios (Rol: ADMIN, VENDEDOR)
