@@ -101,6 +101,51 @@ El proyecto incluye un pipeline de **GitHub Actions** (`.github/workflows/ci.yml
 2. **Docker Verify**:
     - Construye la imagen de Docker para asegurar que el Dockerfile es válido.
 
+## 🚀 Release & Versioning
+
+El proyecto utiliza **Semantic Release** para automatizar el versionado, releases en GitHub, y publicación de imágenes en Docker Hub.
+
+- **Trigger**: Push a la rama `main`.
+- **Acciones**:
+    1.  Analiza los mensajes de commit (Conventional Commits).
+    2.  Calcula la nueva versión (SemVer).
+    3.  Actualiza `package.json` y `CHANGELOG.md`.
+    4.  Crea un GitHub Release.
+    5.  **Docker Hub**: Construye y sube imágenes con tags `vX.Y.Z` y `latest`.
+
+### Configuración Necesaria
+Asegúrate de configurar los siguientes **Secrets** en tu repositorio de GitHub:
+- `DOCKER_USERNAME`: Tu usuario de Docker Hub.
+- `DOCKER_PASSWORD`: Tu contraseña o access token de Docker Hub.
+- `GITHUB_TOKEN`: (Automático por GitHub Actions, pero puede requerir permisos).
+
+### 📌 Buenas Prácticas de Commits (Conventional Commits)
+
+Es crucial seguir el estándar de **Conventional Commits** para que Semantic Release determine correctamente el número de versión (Major, Minor, Patch).
+
+| Tipo | Descripción | Efecto en Versión | Ejemplo |
+| :--- | :--- | :--- | :--- |
+| **feat** | Nueva funcionalidad | **MINOR** (v1.1.0 -> v1.2.0) | `feat: add user registration` |
+| **fix** | Corrección de bug | **PATCH** (v1.1.0 -> v1.1.1) | `fix: password validation error` |
+| **perf** | Mejora de rendimiento | **PATCH** | `perf: improve api response time` |
+| **docs** | Cambios en documentación | Sin cambio de versión | `docs: update readme instructions` |
+| **chore**| Tareas de mantenimiento | Sin cambio de versión | `chore: update dependencies` |
+| **test** | Tests unitarios/integración | Sin cambio de versión | `test: add integration tests` |
+| **BREAKING CHANGE** | Cambio que rompe compatibilidad | **MAJOR** (v1.0.0 -> v2.0.0) | `feat: change api contract (BREAKING CHANGE: remove field X)` |
+
+#### Ejemplos de Mensajes de Commit
+
+```text
+feat(auth): add login endpoint with jwt
+fix(user): resolve crash when email is missing
+docs: add installation steps to readme
+chore: update package.json scripts
+feat(api): update user response format
+
+BREAKING CHANGE: user response id is now uuid instead of mongo id
+```
+
+
 ### Users
 - `GET /api/users` - Obtener todos los usuarios (Rol: ADMIN, VENDEDOR)
 - `PUT /api/users/:id` - Actualizar usuario (Rol: ADMIN)
